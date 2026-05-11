@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <title>RH Vida</title>
+    
+    <style>
+        /* Variables CSS Modificadas */
+        :root {
+            --primary-color: #00897d; /* Color de Boton.png */
+            --secondary-color: #BDC3C7; /* Mantenido como un gris claro para posibles usos futuros */
+            --text-color: #2C3E50; /* Un gris oscuro para texto, buen contraste */
+            --light-text: #FAFAFA; /* Para texto sobre fondos oscuros (botones) */
+            --background-color: #a5d0d6; /* Color de Fondo.png */
+            --light-background: #edf6f7; /* Color de fondo claro para la sección de filosofía */
+            --transition: all 0.3s ease;
+        }
+        
+        /* Reset y estilos base */
+        *,::before,::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color); 
+            color: var(--text-color); 
+            min-height: 100vh;
+            line-height: 1.7; 
+        }
+        
+        h1, h2, p {
+            margin: 0;
+        }
+        
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        a {
+            text-decoration: none;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Header - Ahora con fondo sólido */
+        .l-header {
+            width: 100%;
+            padding: 1rem 2rem; /* Ajustado el padding */
+            background-color: var(--background-color); /* Fondo sólido igual al de la página */
+            position: fixed; 
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra ligera para distinguirlo */
+            transition: var(--transition);
+        }
+        
+        /* Navegación */
+        .nav {
+            display: flex;
+            justify-content: space-between; /* Espacio entre logo/menú y redes sociales */
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav__left { /* Contenedor para logo y menú */
+            display: flex;
+            align-items: center;
+            gap: 1.5rem; /* Espacio entre logo y primer item del menú */
+        }
+        
+        .nav__logo {
+            color: var(--text-color); 
+            font-size: 1.5rem;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+        
+        .nav__logo:hover {
+            opacity: 0.8;
+        }
+        
+        .nav__menu { /* Ya no es un menú colapsable, es una lista horizontal */
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav__list {
+            display: flex;
+            list-style: none;
+            align-items: center; /* Alinear verticalmente los items */
+        }
+        
+        .nav__item {
+            margin-left: 1.5rem; /* Espacio entre items del menú */
+        }
+        
+        .nav__link {
+            color: var(--text-color); 
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+            padding: 0.5rem 0; /* Padding para hacer el área clickeable más grande */
+        }
+        
+        .nav__link:hover {
+            color: var(--primary-color); 
+            opacity: 1;
+        }
+        
+        /* Estilo para el enlace "Contacto" que antes era "Acceder" */
+        .nav__link--button-style {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+         .nav__link--button-style:hover {
+            background-color: var(--text-color); /* Oscurecer al pasar el ratón */
+            color: var(--light-text); 
+        }
+
+        /* Ocultar el toggle del menú móvil ya que no se usa */
+        .nav__toggle, .nav__close {
+            display: none;
+        }
+
+        /* Social links en el header */
+        .header__social-links {
+            display: flex;
+            align-items: center;
+            gap: 1rem; /* Espacio entre iconos sociales */
+        }
+        .header__social-links a {
+            color: var(--text-color);
+            font-size: 1.3rem; /* Tamaño de iconos sociales en header */
+            transition: var(--transition);
+        }
+        .header__social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        /* Sección Home */
+        .home {
+            padding: 8rem 2rem 4rem; /* Padding superior para no quedar debajo del header fijo */
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; 
+            position: relative; /* Para posicionar el botón de scroll */
+        }
+        
+        .home__container {
+            display: flex;
+            flex-direction: column; /* Por defecto para móviles: texto arriba, imagen abajo */
+            align-items: center;
+            justify-content: center;
+            max-width: 1000px; 
+            margin: 0 auto;
+            text-align: center;
+            gap: 2rem; 
+        }
+        
+        /* Contenido textual (ahora a la izquierda en desktop) */
+        .home__data {
+            width: 100%;
+            max-width: 550px; 
+            animation: fadeIn 1s ease-out;
+            text-align: center; /* Centrado por defecto */
+            order: 2; /* Por defecto el texto va después */
+        }
+        
+        /* Contenedor de la imagen (ahora a la derecha en desktop) */
+        .home__img {
+            width: 100%;
+            max-width: 450px; 
+            order: 1; /* Por defecto la imagen va antes */
+        }
+        
+        .home__img img {
+            width: auto; 
+            height: auto;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto; 
+        }
+        
+        .home__title {
+            font-size: 2.8rem; 
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            color: var(--text-color);
+        }
+        
+        .home__tagline {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color); /* o el color principal de tu marca */
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .home__description {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links { 
+            display: none; /* Ocultar los social links originales de la sección home */
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px); 
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Botón de Scroll */
+        .scroll-btn-container {
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            animation: fadeIn 1.5s ease-out 1s forwards;
+            opacity: 0;
+        }
+        
+        .scroll-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .scroll-text {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .scroll-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .scroll-btn:hover .scroll-icon {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Sección de Filosofía */
+        .philosophy {
+            background-color: var(--light-background);
+            padding: 5rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .philosophy__container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .philosophy__header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .philosophy__title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .philosophy__subtitle {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .philosophy__content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columnas en escritorio */
+            grid-auto-rows: auto; /* Altura automática */
+            gap: 2rem; /* Espacio entre tarjetas */
+        }
+        
+        .philosophy__item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .philosophy__item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .philosophy__item-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .philosophy__item-title i {
+            margin-right: 0.8rem;
+            font-size: 1.8rem;
+        }
+        
+        .philosophy__text {
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .philosophy__list {
+            margin-top: 1rem;
+            padding-left: 0.5rem;
+        }
+        
+        .philosophy__list-item {
+            margin-bottom: 0.3rem; 
+            position: relative;
+            padding-left: 1.5rem;
+            line-height: 1.4; 
+        }
+        
+        .philosophy__list-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.65rem; 
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+        
+        .highlight {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        /* Estilos para la sección de Servicios */
+        .services {
+            background-color: var(--background-color);
+            padding: 5rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .services__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+
+        .services__header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .services__title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .services__subtitle {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .services__content {
+            display: grid;
+            /* Por defecto, flexible para adaptarse a 2 o 3 columnas */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 2rem;
+        }
+
+        .service__card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            animation: fadeIn 1s ease-out;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .service__card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .service__icon {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .service__icon i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .service__title { /* Nombre de clase para el título de cada tarjeta de servicio */
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .service__details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .service__detail h4 {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service__detail h4 i {
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .service__detail p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Media Queries */
+        @media screen and (min-width: 769px) { 
+            .home__container {
+                flex-direction: row; /* Contenido lado a lado */
+                text-align: left; 
+                gap: 3rem; 
+            }
+            .home__data {
+                text-align: left;
+                order: 1; /* Texto a la izquierda */
+                max-width: 48%; /* Ajustar ancho */
+            }
+            .home__img {
+                order: 2; /* Imagen a la derecha */
+                max-width: 48%; /* Ajustar ancho */
+            }
+        }
+
+        /* Media query para forzar 3 columnas en servicios en pantallas de escritorio más grandes */
+        @media screen and (min-width: 1024px) {
+            .services__content {
+                grid-template-columns: repeat(3, 1fr); /* Fuerza 3 columnas en pantallas grandes */
+            }
+        }
+
+        /* Ajustes para el header y navegación en móvil y tablet */
+        @media screen and (max-width: 768px) {
+            .l-header {
+                padding: 0.8rem 1rem;
+            }
+            .nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .nav__left {
+                width: 100%;
+                flex-direction: row;
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+            .nav__list {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+                margin-top: 0.5rem;
+            }
+            .nav__item {
+                margin: 0 0.5rem;
+            }
+            .nav__link--button-style {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            .home {
+                padding-top: 9rem; 
+            }
+            .home__img img {
+                max-width: 80%;
+                margin: 0 auto;
+            }
+            .header__social-links {
+                margin-top: 0.5rem;
+            }
+
+            /* Ajustes para sección Filosofía en móvil (1 COLUMNA) */
+            .philosophy__content {
+                grid-template-columns: 1fr; /* 1 columna en móvil */
+                gap: 1.5rem; /* Ajustar el gap para una sola columna */
+            }
+            .philosophy__item {
+                padding: 1.5rem; /* Ajustar padding si es necesario */
+            }
+
+            /* Media Queries para Servicios en móvil (1 COLUMNA) */
+            .services__content {
+                grid-template-columns: 1fr; /* Los servicios se apilan en móvil */
+            }
+            
+            .service__card {
+                padding: 1.5rem;
+            }
+            
+            .service__title { /* Ajuste para título de tarjeta de servicio en móvil */
+                font-size: 1.3rem;
+            }
+            
+            .service__detail h4 {
+                font-size: 1rem;
+            }
+            
+            .service__detail p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Ajustes adicionales para pantallas muy pequeñas */
+        @media screen and (max-width: 480px) {
+            .l-header {
+                padding: 0.6rem 0.8rem;
+            }
+            .nav__logo {
+                font-size: 1.3rem;
+            }
+            .nav__link {
+                font-size: 0.9rem;
+            }
+            .nav__link--button-style {
+                padding: 0.4rem 0.8rem;
+            }
+            .home {
+                padding-top: 10rem; 
+            }
+            .home__title {
+                font-size: 2.3rem; 
+            }
+            .home__img {
+                margin-top: 1rem; 
+                order: 1; 
+            }
+            .home__data {
+                order: 2; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="l-header">
+        <nav class="nav">
+            <div class="nav__left">
+                <a href="#" class="nav__logo">RHV</a>
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+	                    <li class="nav__item"><a href="#services" class="nav__link">Servicios</a></li>
+    	                <li class="nav__item"><a href="#philosophy" class="nav__link">Acerca de nosotros</a></li>
+    	                <li class="nav__item"><a href="https://00k98x29.forms.app/rhvidacontacto" class="nav__link nav__link--button-style">Contacto</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="header__social-links">
+                <a href="https://www.linkedin.com/company/rh-vida/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://api.whatsapp.com/send?phone=50672067720" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+				<a href="https://www.facebook.com/profile.php?id=61578435929655" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+    			<a href="https://www.instagram.com/rhvida_/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="l-main">
+        <section class="home" id="home">
+            <div class="home__container">
+                <div class="home__data">
+                    <h1 class="home__title">RH Vida</h1>
+		            <p class="home__tagline">Transformamos la gestión de RRHH en soluciones inteligentes para su crecimiento</p>
+                    <p class="home__description">Variedad de opciones, métodos innovadores, con personal altamente calificado para brindar el mejor servicio.</p>
+                    
+                    </div>
+                
+                <div class="home__img">
+                    <img src="assets/Logo redondo.svg" alt="RHVIDA Ilustración" class="floating">
+                </div>
+            </div>
+            
+            <div class="scroll-btn-container">
+                <a href="#services" class="scroll-btn">
+                    <span class="scroll-text">Descubre más de nosotros</span>
+                    <div class="scroll-icon">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="services" id="services">
+            <div class="services__container">
+        <div class="services__header">
+            <h2 class="services__title">Nuestros Servicios</h2>
+            <p class="services__subtitle">Soluciones integrales de recursos humanos adaptadas a las necesidades de su empresa</p>
+        </div>
+        
+        <div class="services__content">
+            <div class="service__card">
+                <div class="service__icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3 class="service__title">Administración de RH y Cumplimiento Normativo</h3>
+                <div class="service__details">
+                    <div class="service__detail">
+                        <h4><i class="fas fa-folder-open"></i> Gestión Integral de Expedientes</h4>
+                        <p>Administración digital y física de expedientes laborales completos, manejo seguro de contratos y documentación sensible.</p>
+                    </div>
+                    <div class="service__detail">
+                        <h4><i class="fas fa-book"></i> Políticas y Procedimientos</h4>
+                        <p>Creación de manuales y políticas internas alineadas con la legislación laboral vigente en Costa Rica.</p>
+                    </div>
+                    <div class="service__detail">
+                        <h4><i class="fas fa-handshake"></i> Asesoría en Relaciones Laborales</h4>
+                        <p>Soporte en gestión de relaciones con empleados y orientación en procesos disciplinarios.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service__card">
+                <div class="service__icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <h3 class="service__title">Compensación y Beneficios</h3>
+                <div class="service__details">
+                    <div class="service__detail">
+                        <h4><i class="fas fa-gift"></i> Diseño de Paquetes de Beneficios</h4>
+                        <p>Investigación de tendencias del mercado e implementación de beneficios adaptados a las necesidades de su empresa.</p>
+                    </div>
+                    <div class="service__detail">
+                        <h4><i class="fas fa-chart-line"></i> Sistemas de Compensación</h4>
+                        <p>Asesoría para el diseño óptimo de sistemas de compensación laboral dentro del sistema de planilla.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service__card">
+                <div class="service__icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3 class="service__title">Manejo de Planilla</h3>
+                <div class="service__details">
+                    <div class="service__detail">
+                        <h4><i class="fas fa-file-invoice-dollar"></i> Procesamiento de Planilla</h4>
+                        <p>Cálculo de salarios, deducciones legales, emisión de pagos y gestión de retenciones ante autoridades.</p>
+                    </div>
+                    <div class="service__detail">
+                        <h4><i class="fas fa-money-check-alt"></i> Administración de Beneficios</h4>
+                        <p>Manejo de viáticos, bonos, gastos de viaje y otros beneficios según el marco laboral y fiscal correspondiente.</p>
+                    </div>
+                    <div class="service__detail">
+                        <h4><i class="far fa-clock"></i> Flexibilidad de Horario</h4>
+                        <p>Horarios adaptables de atención para cubrir distintos turnos laborales de su empresa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service__card">
+                <div class="service__icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3 class="service__title">Tecnología y Sistemas de RH</h3>
+                <div class="service__details">
+                    <div class="service__detail">
+                        <h4><i class="fas fa-desktop"></i> Implementación de Software</h4>
+                        <p>Asesoramiento en selección de sistemas y plataformas de RRHH que se ajusten a sus necesidades.</p>
+                    </div>
+                    <div class="service__detail">
+                        <h4><i class="fas fa-cogs"></i> Automatización de Procesos</h4>
+                        <p>Desarrollo en Excel (macros y VBA) y otras herramientas para optimizar procesos manuales y repetitivos.</p>
+                    </div>
+                    <div class="service__detail">
+                        <h4><i class="fas fa-headset"></i> Soporte y Mantenimiento</h4>
+                        <p>Provisión de soporte técnico y funcional para las herramientas y sistemas implementados.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service__card">
+                <div class="service__icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h3 class="service__title">Analítica y Reportes Avanzados</h3>
+                <div class="service__details">
+                    <div class="service__detail">
+                        <h4><i class="fas fa-tachometer-alt"></i> Dashboards Personalizados</h4>
+                        <p>Creación de tableros interactivos con métricas clave de RRHH utilizando herramientas como Power BI.</p>
+                    </div>
+                    <div class="service__detail">
+                        <h4><i class="fas fa-table"></i> Reportes Especiales</h4>
+                        <p>Información por centros de costos, índices de actividad y productividad según los parámetros definidos.</p>
+                    </div>
+                    <div class="service__detail">
+                        <h4><i class="fas fa-search-plus"></i> Análisis Predictivo</h4>
+                        <p>Utilización de datos históricos para identificar tendencias y anticipar necesidades futuras.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service__card">
+                <div class="service__icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <h3 class="service__title">Gestión del Desempeño</h3>
+                <div class="service__details">
+                    <div class="service__detail">
+                        <h4><i class="fas fa-star"></i> Sistemas de Evaluación</h4>
+                        <p>Desarrollo de modelos de evaluación alineados con los objetivos estratégicos de su empresa.</p>
+                    </div>
+                    <div class="service__detail">
+                        <h4><i class="fas fa-bullseye"></i> Establecimiento de Objetivos</h4>
+                        <p>Asesoría en la definición de OKRs o KPIs a nivel organizacional, departamental e individual.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </section>
+        
+        <section class="philosophy" id="philosophy">
+            <div class="philosophy__container">
+                <div class="philosophy__header">
+                    <h2 class="philosophy__title">Nuestra Filosofía</h2>
+                    <p class="philosophy__subtitle">Conoce los principios que guían nuestro trabajo y compromiso con la excelencia.</p>
+                </div>
+                
+                <div class="philosophy__content">
+                    <div class="philosophy__item">
+                        <h3 class="philosophy__item-title">
+                            <i class="fas fa-bullseye"></i>
+                            Misión
+                        </h3>
+                        <p class="philosophy__text">
+                            Guiados por nuestra fe y compromiso con la excelencia, <span class="highlight">ser el socio estratégico</span> del sector empresarial en Costa Rica, <span class="highlight">brindando soluciones integrales, precisas y confiables</span> en administración de nómina y gestión de Recursos Humanos, asegurando el <span class="highlight">cumplimiento normativo</span> y permitiendo a nuestros clientes <span class="highlight">enfocarse en su crecimiento y éxito</span> con total tranquilidad.
+                        </p>
+                    </div>
+                    
+                    <div class="philosophy__item">
+                        <h3 class="philosophy__item-title">
+                            <i class="fas fa-eye"></i>
+                            Visión
+                        </h3>
+                        <p class="philosophy__text">
+                            Aspiramos a ser la <span class="highlight">empresa líder y de mayor confianza</span> en servicios de administración de nómina y Recursos Humanos para el sector empresarial en Costa Rica, reconocidos por nuestra <span class="highlight">integridad, innovación, profundo conocimiento local</span> y por operar bajo <span class="highlight">principios éticos fundamentados en nuestra fe</span>, contribuyendo activamente al desarrollo sostenible de nuestros clientes y al bienestar de sus colaboradores.
+                        </p>
+                    </div>
+                    
+                    <div class="philosophy__item">
+                        <h3 class="philosophy__item-title">
+                            <i class="fas fa-gem"></i>
+                            Valores
+                        </h3>
+                        <ul class="philosophy__list">
+                            <li class="philosophy__list-item"><span class="highlight">Fe e Integridad:</span> Actuamos con honestidad, ética cristiana y transparencia en todas nuestras relaciones y decisiones.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Excelencia y Precisión:</span> Nos esforzamos por alcanzar los más altos estándares de calidad y exactitud en cada servicio.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Compromiso con el Cliente:</span> Construimos relaciones de confianza a largo plazo, superando expectativas.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Cumplimiento y Responsabilidad:</span> Garantizamos la conformidad con todas las normativas.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Confidencialidad Absoluta:</span> Salvaguardamos la información sensible con el máximo rigor.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Servicio y Eficiencia:</span> Optimizamos nuestros procesos y los de nuestros clientes.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Expertise y Aprendizaje Continuo:</span> Fomentamos el conocimiento especializado y la capacitación constante.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="philosophy__item">
+                        <h3 class="philosophy__item-title">
+                            <i class="fas fa-award"></i>
+                            Política de Calidad
+                        </h3>
+                        <p class="philosophy__text">En RH Vida, fundamentados en nuestra fe y valores, nos comprometemos a:</p>
+                        <ul class="philosophy__list">
+                            <li class="philosophy__list-item"><span class="highlight">Satisfacer plenamente</span> las necesidades de nuestros clientes con servicios <span class="highlight">precisos y eficientes</span>.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Garantizar</span> el estricto cumplimiento de la legislación laboral, fiscal y de protección de datos.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Proteger</span> la confidencialidad y seguridad de la información mediante procesos robustos.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Fomentar</span> la competencia y el desarrollo de nuestro equipo humano.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Buscar</span> la mejora continua de nuestros procesos y servicios.</li>
+                            <li class="philosophy__list-item"><span class="highlight">Operar</span> con integridad, transparencia y responsabilidad en todas nuestras acciones.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const internalLinks = document.querySelectorAll('a[href^="#"]');
+            internalLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return; 
+                    const targetElement = document.querySelector(targetId);
+                    if(!targetElement) return; 
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
